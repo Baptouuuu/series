@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "~7.2",
-        "innmind/cli": "^1.2"
+        "innmind/cli": "^1.2",
+        "innmind/immutable": "^2.8"
     },
     "autoload": {
         "psr-4": {
