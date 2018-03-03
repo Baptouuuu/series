@@ -8,10 +8,24 @@ use Innmind\CLI\{
     Main,
     Environment,
 };
+use Innmind\Compose\ContainerBuilder\ContainerBuilder;
+use Innmind\Url\Path;
+use Innmind\Immutable\Map;
 
 new class extends Main {
     protected function main(Environment $env): void
     {
+        $home = $env->variables()->get('HOME');
 
+        $container = (new ContainerBuilder)(
+            new Path(__DIR__.'/container.yml'),
+            (new Map('string', 'mixed'))->put(
+                'profile',
+                $home.'/.series'
+            )
+        );
+
+        $run = $container->get('commands');
+        $run($env);
     }
 };
