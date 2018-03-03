@@ -85,4 +85,18 @@ class ReportTest extends TestCase
             new Options
         ));
     }
+
+    public function testUsage()
+    {
+        $expected = <<<USAGE
+report
+
+List all the epsiodes you need to wath
+USAGE;
+
+        $this->assertSame($expected, (string) new Report(
+            $this->createMock(Calendar::class),
+            $this->createMock(TimeContinuumInterface::class)
+        ));
+    }
 }

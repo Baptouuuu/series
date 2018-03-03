@@ -182,4 +182,26 @@ class WatchTest extends TestCase
             new Options
         ));
     }
+
+    public function testUsage()
+    {
+        $expected = <<<USAGE
+watch
+
+Choose the series you want to watch
+
+Will display a list of series airing this month, you'll need
+to pick the ones you want to follow.
+
+You'll need to run this command every month if you want to
+follow new shows
+USAGE;
+
+        $this->assertSame($expected, (string) new Watch(
+            $this->createMock(Storage::class),
+            $this->createMock(Storage::class),
+            $this->createMock(Calendar::class),
+            $this->createMock(TimeContinuumInterface::class)
+        ));
+    }
 }

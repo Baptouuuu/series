@@ -146,4 +146,18 @@ class UnwatchTest extends TestCase
             new Options
         ));
     }
+
+    public function testUsage()
+    {
+        $expected = <<<USAGE
+unwatch
+
+Choose the series you want to stop watching
+USAGE;
+
+        $this->assertSame($expected, (string) new Unwatch(
+            $this->createMock(Storage::class),
+            $this->createMock(Storage::class)
+        ));
+    }
 }
