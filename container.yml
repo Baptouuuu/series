@@ -18,7 +18,7 @@ services:
         watch Series\Command\Watch:
             - $storage.watching
             - $storage.notWatching
-            - $calendar
+            - $calendar.pogdesign
             - $clock
 
         unwatch Series\Command\Unwatch:
