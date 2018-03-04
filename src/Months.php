@@ -37,7 +37,7 @@ final class Months
             $month = $month->goForward(new Month(1));
         } while ($to->aheadOf($month));
 
-        if ($months->size() > 1) { // when spanning multiple months
+        if (!$since->equals($to)) { // when spanning multiple months
             $months = $months->add($to);
         }
 

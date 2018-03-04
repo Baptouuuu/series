@@ -63,4 +63,23 @@ class MonthsTest extends TestCase
             $months->current()->format(new ISO8601)
         );
     }
+
+    public function testJumpOneMonth()
+    {
+        $months = (new Months)(
+            new PointInTime('2018-02-28 12:13:14.15'),
+            new PointInTime('2018-03-01 13:14:15.16')
+        );
+
+        $this->assertCount(2, $months);
+        $this->assertSame(
+            '2018-02-01T00:00:00+00:00',
+            $months->current()->format(new ISO8601)
+        );
+        $months->next();
+        $this->assertSame(
+            '2018-03-01T00:00:00+00:00',
+            $months->current()->format(new ISO8601)
+        );
+    }
 }
