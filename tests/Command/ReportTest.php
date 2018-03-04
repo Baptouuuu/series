@@ -91,7 +91,7 @@ class ReportTest extends TestCase
         $expected = <<<USAGE
 report
 
-List all the epsiodes you need to wath
+List all the epsiodes you need to watch
 USAGE;
 
         $this->assertSame($expected, (string) new Report(

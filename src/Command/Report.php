@@ -43,7 +43,7 @@ final class Report implements Command
         return <<<USAGE
 report
 
-List all the epsiodes you need to wath
+List all the epsiodes you need to watch
 USAGE;
     }
 }
