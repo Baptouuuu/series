@@ -2,6 +2,7 @@
     "name": "baptouuuu/series",
     "type": "project",
     "description": "Series watcher",
+    "license": "MIT",
     "authors": [
         {
             "name": "Baptiste Langlade",
