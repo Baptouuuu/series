@@ -87,12 +87,12 @@ class WatchTest extends TestCase
             ->with($now)
             ->willReturn(Set::of(
                 Episode::class,
-                new Episode('foo', 1, 1),
-                new Episode('tbbt', 1, 1),
-                new Episode('bar', 1, 1),
-                new Episode('watev', 1, 1),
-                new Episode('ys', 1, 1),
-                new Episode('baz', 1, 1)
+                new Episode('foo', 1, 1, $this->createMock(PointInTimeInterface::class)),
+                new Episode('tbbt', 1, 1, $this->createMock(PointInTimeInterface::class)),
+                new Episode('bar', 1, 1, $this->createMock(PointInTimeInterface::class)),
+                new Episode('watev', 1, 1, $this->createMock(PointInTimeInterface::class)),
+                new Episode('ys', 1, 1, $this->createMock(PointInTimeInterface::class)),
+                new Episode('baz', 1, 1, $this->createMock(PointInTimeInterface::class))
             ));
 
         $env = $this->createMock(Environment::class);

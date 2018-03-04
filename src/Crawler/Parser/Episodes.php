@@ -19,6 +19,7 @@ use Innmind\Http\Message\{
     Request,
     Response,
 };
+use Innmind\TimeContinuum\TimeContinuumInterface;
 use Innmind\Immutable\{
     MapInterface,
     Set,
@@ -28,10 +29,14 @@ use Innmind\Immutable\{
 final class Episodes implements Parser
 {
     private $reader;
+    private $clock;
 
-    public function __construct(ReaderInterface $reader)
-    {
+    public function __construct(
+        ReaderInterface $reader,
+        TimeContinuumInterface $clock
+    ) {
         $this->reader = $reader;
+        $this->clock = $clock;
     }
 
     /**
@@ -51,7 +56,7 @@ final class Episodes implements Parser
                 self::key(),
                 $episodes->reduce(
                     new Set(Episode::class),
-                    static function(Set $series, ElementInterface $episode): Set {
+                    function(Set $series, ElementInterface $episode): Set {
                         $show = trim($episode
                             ->children()
                             ->get(1)
@@ -73,10 +78,19 @@ final class Episodes implements Parser
                             ->trim()
                             ->capture('~s(?<season>\d{2})e(?<episode>\d{2})~');
 
+                        $airedAt = Str::of($episode->attributes()->get('id')->value());
+                        $airedAtParts = $airedAt->capture('~^d_(?<day>\d{1,2})_(?<month>\d{1,2})_(?<year>\d{4})$~');
+                        $airedAt = Str::of('%s-%\'.02d-%\'.02d 00:00:00')->sprintf(
+                            (string) $airedAtParts->get('year'),
+                            (string) $airedAtParts->get('month'),
+                            (string) $airedAtParts->get('day')
+                        );
+
                         return $series->add(new Episode(
                             $show,
                             (int) (string) $parts->get('season'),
-                            (int) (string) $parts->get('episode')
+                            (int) (string) $parts->get('episode'),
+                            $this->clock->at((string) $airedAt)
                         ));
                     }
                 )

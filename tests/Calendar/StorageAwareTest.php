@@ -42,10 +42,10 @@ class StorageAwareTest extends TestCase
             ->with($time)
             ->willReturn(Set::of(
                 Episode::class,
-                $foo = new Episode('foo', 1, 2),
-                new Episode('bar', 3, 4),
-                $baz = new Episode('baz', 5, 6),
-                new Episode('watev', 7, 8)
+                $foo = new Episode('foo', 1, 2, $this->createMock(PointInTimeInterface::class)),
+                new Episode('bar', 3, 4, $this->createMock(PointInTimeInterface::class)),
+                $baz = new Episode('baz', 5, 6, $this->createMock(PointInTimeInterface::class)),
+                new Episode('watev', 7, 8, $this->createMock(PointInTimeInterface::class))
             ));
         $storage
             ->expects($this->once())

@@ -24,6 +24,7 @@ use Innmind\Xml\Translator\{
     NodeTranslator,
     NodeTranslators,
 };
+use Innmind\TimeContinuum\TimeContinuum\Earth;
 use Innmind\Immutable\{
     MapInterface,
     Map,
@@ -42,7 +43,8 @@ class EpisodesTest extends TestCase
                         HtmlTranslators::defaults()
                     )
                 )
-            )
+            ),
+            $clock = new Earth
         );
 
         $this->assertInstanceOf(Parser::class, $parser);
@@ -68,5 +70,11 @@ class EpisodesTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $episodes);
         $this->assertSame(Episode::class, (string) $episodes->type());
         $this->assertCount(552, $episodes);
+        $this->assertTrue(
+            $episodes->current()->airedBetween(
+                $clock->at('2018-02-28 23:59:59'),
+                $clock->at('2018-03-01 00:00:01')
+            )
+        );
     }
 }

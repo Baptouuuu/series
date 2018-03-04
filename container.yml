@@ -47,6 +47,7 @@ services:
     parser:
         episodes Series\Crawler\Parser\Episodes:
             - $reader.reader
+            - $clock
 
     storage:
         watching Series\Storage\Filesystem:
