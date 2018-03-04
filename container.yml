@@ -1,0 +1,73 @@
+arguments:
+    profile: string # path to the profile storage
+
+dependencies:
+    reader @innmind/html/container.yml: []
+    transport @innmind/http-transport/container.yml: []
+
+expose:
+    commands: $commands
+
+services:
+    commands Innmind\CLI\Commands:
+        - $commands.watch
+        - $commands.unwatch
+        - $commands.report
+
+    commands:
+        watch Series\Command\Watch:
+            - $storage.watching
+            - $storage.notWatching
+            - $calendar.pogdesign
+            - $clock
+
+        unwatch Series\Command\Unwatch:
+            - $storage.watching
+            - $storage.notWatching
+
+        report Series\Command\Report:
+            - $calendar
+            - $clock
+            - $lastReport
+
+    calendar:
+        pogdesign Series\Calendar\Pogdesign:
+            - $crawler
+        storageAware Series\Calendar\StorageAware:
+            - '@decorated'
+            - $storage.watching
+
+    calendar stack:
+        - $calendar.storageAware
+        - $calendar.pogdesign
+
+    crawler Innmind\Crawler\Crawler\Crawler:
+        - $transport.conservative
+        - $parser.episodes
+
+    parser:
+        episodes Series\Crawler\Parser\Episodes:
+            - $reader.reader
+            - $clock
+
+    storage:
+        watching Series\Storage\Filesystem:
+            - $filesystem
+            - 'watching.txt'
+
+        notWatching Series\Storage\Filesystem:
+            - $filesystem
+            - 'notWatching.txt'
+
+    lastReport Series\LastReport\Filesystem:
+        - $filesystem
+        - 'lastReport.txt'
+        - $clock
+
+    filesystem Innmind\Filesystem\Adapter\FilesystemAdapter:
+        - $profile
+
+    clock Innmind\TimeContinuum\TimeContinuum\Earth:
+        - $clock.timezone
+    clock:
+        timezone Innmind\TimeContinuum\Timezone\Earth\UTC: []

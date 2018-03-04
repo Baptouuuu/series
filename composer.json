@@ -1,0 +1,34 @@
+{
+    "name": "baptouuuu/series",
+    "type": "project",
+    "description": "Series watcher",
+    "authors": [
+        {
+            "name": "Baptiste Langlade",
+            "email": "langlade.baptiste@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~7.2",
+        "innmind/cli": "^1.2",
+        "innmind/immutable": "^2.8",
+        "innmind/html": "^3.1",
+        "innmind/crawler": "^4.1",
+        "innmind/time-continuum": "^1.1",
+        "innmind/compose": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Series\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Series\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "bin": ["series"]
+}
