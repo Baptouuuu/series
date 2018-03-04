@@ -57,6 +57,11 @@ services:
             - $filesystem
             - 'notWatching.txt'
 
+    lastReport Series\LastReport\Filesystem:
+        - $filesystem
+        - 'lastReport.txt'
+        - $clock
+
     filesystem Innmind\Filesystem\Adapter\FilesystemAdapter:
         - $profile
 
