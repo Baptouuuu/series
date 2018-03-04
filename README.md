@@ -38,6 +38,10 @@ series report
 
 The first time it will retrieve the epsiodes since the last day. But if you want to display episodes since a given date simply add an argument to the command of the form `{year}-{month}-{day}`.
 
+Examples of the commands:
+
+![](watch.png) ![](report.png)
+
 ## Tech
 
 Below is the dependency graph of this tool in case you want to understand the inner working.
