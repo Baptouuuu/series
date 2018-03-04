@@ -68,4 +68,4 @@ services:
     clock Innmind\TimeContinuum\TimeContinuum\Earth:
         - $clock.timezone
     clock:
-        timezone Innmind\TimeContinuum\Timezone\Earth\Europe\Paris: []
+        timezone Innmind\TimeContinuum\Timezone\Earth\UTC: []
