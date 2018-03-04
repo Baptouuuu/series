@@ -866,16 +866,16 @@
         },
         {
             "name": "innmind/time-continuum",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Innmind/TimeContinuum.git",
-                "reference": "7e9fb41b67b051b45ae4023b27971b060ea087b8"
+                "reference": "a0dbc6b2fe4792f1dad3cea3283e4be16a082cb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/TimeContinuum/zipball/7e9fb41b67b051b45ae4023b27971b060ea087b8",
-                "reference": "7e9fb41b67b051b45ae4023b27971b060ea087b8",
+                "url": "https://api.github.com/repos/Innmind/TimeContinuum/zipball/a0dbc6b2fe4792f1dad3cea3283e4be16a082cb6",
+                "reference": "a0dbc6b2fe4792f1dad3cea3283e4be16a082cb6",
                 "shasum": ""
             },
             "require": {
@@ -905,7 +905,7 @@
             "keywords": [
                 "time"
             ],
-            "time": "2017-11-23T17:51:57+00:00"
+            "time": "2018-03-04T13:03:15+00:00"
         },
         {
             "name": "innmind/url",
