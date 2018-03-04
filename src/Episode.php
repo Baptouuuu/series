@@ -34,7 +34,8 @@ final class Episode
         PointInTimeInterface $since,
         PointInTimeInterface $to
     ) {
-        return $this->airedAt->aheadOf($since) && $to->aheadOf($this->airedAt);
+        return $this->airedAt->aheadOf($since) &&
+            ($to->aheadOf($this->airedAt) || $to->equals($this->airedAt));
     }
 
     public function __toString(): string

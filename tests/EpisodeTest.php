@@ -28,15 +28,31 @@ class EpisodeTest extends TestCase
             ->expects($this->at(1))
             ->method('aheadOf')
             ->with($since)
+            ->willReturn(true);
+        $airedAt
+            ->expects($this->at(2))
+            ->method('aheadOf')
+            ->with($since)
             ->willReturn(false);
         $to
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('aheadOf')
+            ->with($airedAt)
+            ->willReturn(true);
+        $to
+            ->expects($this->at(1))
+            ->method('aheadOf')
+            ->with($airedAt)
+            ->willReturn(false);
+        $to
+            ->expects($this->at(2))
+            ->method('equals')
             ->with($airedAt)
             ->willReturn(true);
 
         $this->assertSame('tbbt', $episode->show());
         $this->assertSame('tbbt s01e06', (string) $episode);
+        $this->assertTrue($episode->airedBetween($since, $to));
         $this->assertTrue($episode->airedBetween($since, $to));
         $this->assertFalse($episode->airedBetween($since, $to));
     }
