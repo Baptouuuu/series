@@ -35,5 +35,8 @@ class EpisodesTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $episodes);
         $this->assertSame(ElementInterface::class, (string) $episodes->type());
         $this->assertCount(552, $episodes);
+        $episodes->foreach(function(ElementInterface $episode): void {
+            $this->assertTrue($episode->attributes()->contains('id'));
+        });
     }
 }

@@ -20,6 +20,8 @@ use Innmind\Immutable\{
  */
 final class Episodes
 {
+    private $currentDay;
+
     /**
      * @return SetInterface<ElementInterface>
      */
@@ -34,7 +36,11 @@ final class Episodes
             $class = new Str($element->attributes()->get('class')->value());
 
             if ($class->matches('/^ep( t[12])? info/')) {
-                return $elements->add($element);
+                return $elements->add(
+                    $element->addAttribute($this->currentDay)
+                );
+            } else if ($class->matches('/^(to)?day$/')) {
+                $this->currentDay = $element->attributes()->get('id');
             }
         }
 
