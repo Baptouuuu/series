@@ -53,7 +53,7 @@ final class Months
             (new Day($time->day()->toInt() - 1))
                 ->add(new Hour($time->hour()->toInt()))
                 ->add(new Minute($time->minute()->toInt()))
-                ->add(new Second($time->second()->toInt() - 1))
+                ->add(new Second(max($time->second()->toInt() - 1, 0)))
                 ->add(new Millisecond($time->millisecond()->toInt()))
         );
     }

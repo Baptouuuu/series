@@ -28,6 +28,7 @@ services:
         report Series\Command\Report:
             - $calendar
             - $clock
+            - $lastReport
 
     calendar:
         pogdesign Series\Calendar\Pogdesign:
