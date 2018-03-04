@@ -2,7 +2,22 @@
 <?php
 declare(strict_types = 1);
 
-require __DIR__.'/vendor/autoload.php';
+$paths = [
+    'vendor/autoload.php',
+    '../autoload.php',
+    __DIR__ . '/../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    getcwd() . '/vendor/autoload.php',
+    getcwd() . '/../vendor/autoload.php',
+];
+
+foreach ($paths as $file) {
+    if (file_exists($file)) {
+        require $file;
+
+        break;
+    }
+}
 
 use Innmind\CLI\{
     Main,
