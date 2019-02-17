@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "df3c4efc4daa74b46f0e134aa225bac6",
+    "content-hash": "d506762096e445d274668017ce574c95",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -290,104 +290,34 @@
             "time": "2018-11-04T12:43:34+00:00"
         },
         {
-            "name": "innmind/compose",
-            "version": "1.7.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Innmind/Compose.git",
-                "reference": "4a296e97896ebe7ee20d22dec41c5001fa7b53e0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/Compose/zipball/4a296e97896ebe7ee20d22dec41c5001fa7b53e0",
-                "reference": "4a296e97896ebe7ee20d22dec41c5001fa7b53e0",
-                "shasum": ""
-            },
-            "require": {
-                "innmind/immutable": "~2.7",
-                "innmind/url": "^2.0",
-                "innmind/url-resolver": "^3.0",
-                "php": "~7.2",
-                "psr/container": "^1.0",
-                "symfony/config": "~3.0|^4.0",
-                "symfony/options-resolver": "~3.0|^4.0",
-                "symfony/yaml": "~3.0|~4.0"
-            },
-            "require-dev": {
-                "giorgiosironi/eris": "^0.9.0",
-                "innmind/graphviz": "^1.1",
-                "innmind/server-control": "^2.1",
-                "innmind/stream": "^1.3",
-                "mnapoli/silly": "^1.7",
-                "phpunit/phpunit": "~6.0"
-            },
-            "suggest": {
-                "innmind/graphviz": "To be able to use the compose binary",
-                "innmind/server-control": "To be able to use the compose binary",
-                "innmind/stream": "To be able to use the compose binary",
-                "mnapoli/silly": "To be able to use the compose binary"
-            },
-            "bin": [
-                "bin/compose"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Innmind\\Compose\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Baptiste Langlade",
-                    "email": "langlade.baptiste@gmail.com"
-                }
-            ],
-            "description": "Service locator",
-            "homepage": "http://github.com/Innmind/Compose",
-            "keywords": [
-                "PSR-11",
-                "dependency",
-                "injection",
-                "locator",
-                "service"
-            ],
-            "abandoned": true,
-            "time": "2018-08-13T05:49:45+00:00"
-        },
-        {
             "name": "innmind/crawler",
-            "version": "4.2.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Innmind/Crawler.git",
-                "reference": "fa4cdc7649ec910392fed24ac1148b2342ebeeae"
+                "reference": "0d2a386405ae667114eafaae98c14f10134532b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/Crawler/zipball/fa4cdc7649ec910392fed24ac1148b2342ebeeae",
-                "reference": "fa4cdc7649ec910392fed24ac1148b2342ebeeae",
+                "url": "https://api.github.com/repos/Innmind/Crawler/zipball/0d2a386405ae667114eafaae98c14f10134532b8",
+                "reference": "0d2a386405ae667114eafaae98c14f10134532b8",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.2",
                 "innmind/colour": "~2.0",
                 "innmind/filesystem": "~3.0",
-                "innmind/html": "~3.0",
+                "innmind/html": "~4.0",
                 "innmind/http": "~3.0",
-                "innmind/http-transport": "~3.0",
-                "innmind/immutable": "~2.1",
+                "innmind/http-transport": "~4.0",
+                "innmind/immutable": "~2.13",
                 "innmind/math": "~4.0",
                 "innmind/time-continuum": "^1.0",
                 "innmind/url-resolver": "~3.0",
                 "php": "~7.2"
             },
             "require-dev": {
-                "innmind/compose": "^1.0",
-                "phpunit/phpunit": "~6.0"
+                "phpunit/phpunit": "~8.0"
             },
             "type": "library",
             "autoload": {
@@ -413,7 +343,7 @@
             "keywords": [
                 "crawler"
             ],
-            "time": "2018-09-03T18:12:14+00:00"
+            "time": "2019-02-10T14:27:31+00:00"
         },
         {
             "name": "innmind/filesystem",
@@ -509,27 +439,26 @@
         },
         {
             "name": "innmind/html",
-            "version": "3.2.0",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Innmind/Html.git",
-                "reference": "3bb920dc43d4fb70d24ebb9cb0341f4e6df6ca05"
+                "reference": "3168508abdf38fc04ac601b4c4e6f4efc476e1d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/Html/zipball/3bb920dc43d4fb70d24ebb9cb0341f4e6df6ca05",
-                "reference": "3bb920dc43d4fb70d24ebb9cb0341f4e6df6ca05",
+                "url": "https://api.github.com/repos/Innmind/Html/zipball/3168508abdf38fc04ac601b4c4e6f4efc476e1d8",
+                "reference": "3168508abdf38fc04ac601b4c4e6f4efc476e1d8",
                 "shasum": ""
             },
             "require": {
                 "innmind/url": "~2.0",
-                "innmind/xml": "~4.0",
+                "innmind/xml": "~5.0",
                 "php": "~7.2",
                 "symfony/dom-crawler": "^3.1"
             },
             "require-dev": {
-                "innmind/compose": "^1.0",
-                "phpunit/phpunit": "~6.0"
+                "phpunit/phpunit": "~7.0"
             },
             "type": "library",
             "autoload": {
@@ -555,7 +484,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2018-09-02T15:47:01+00:00"
+            "time": "2019-01-05T10:56:57+00:00"
         },
         {
             "name": "innmind/http",
@@ -610,16 +539,16 @@
         },
         {
             "name": "innmind/http-transport",
-            "version": "3.3.1",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Innmind/HttpTransport.git",
-                "reference": "b4adb2d539761ca96ebd2410ef302e05424f3e3f"
+                "reference": "e21e28fb9fb799b07556f23f214264f4c81bd5da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/HttpTransport/zipball/b4adb2d539761ca96ebd2410ef302e05424f3e3f",
-                "reference": "b4adb2d539761ca96ebd2410ef302e05424f3e3f",
+                "url": "https://api.github.com/repos/Innmind/HttpTransport/zipball/e21e28fb9fb799b07556f23f214264f4c81bd5da",
+                "reference": "e21e28fb9fb799b07556f23f214264f4c81bd5da",
                 "shasum": ""
             },
             "require": {
@@ -630,8 +559,7 @@
                 "ramsey/uuid": "^3.5"
             },
             "require-dev": {
-                "innmind/compose": "^1.0",
-                "phpunit/phpunit": "~6.0"
+                "phpunit/phpunit": "~7.0"
             },
             "type": "library",
             "autoload": {
@@ -658,7 +586,7 @@
                 "client",
                 "http"
             ],
-            "time": "2018-09-04T18:53:40+00:00"
+            "time": "2019-01-04T15:07:09+00:00"
         },
         {
             "name": "innmind/immutable",
@@ -817,6 +745,51 @@
                 "operating system"
             ],
             "time": "2019-02-05T20:03:58+00:00"
+        },
+        {
+            "name": "innmind/server-control",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Innmind/ServerControl.git",
+                "reference": "949c3a6214557456208fbfa4ccfe7b7d58e4d8ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Innmind/ServerControl/zipball/949c3a6214557456208fbfa4ccfe7b7d58e4d8ed",
+                "reference": "949c3a6214557456208fbfa4ccfe7b7d58e4d8ed",
+                "shasum": ""
+            },
+            "require": {
+                "innmind/immutable": "^2.10",
+                "innmind/stream": "^1.3",
+                "innmind/url": "^2.0",
+                "php": "~7.1",
+                "psr/log": "^1.0",
+                "symfony/process": "^3.2|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Innmind\\Server\\Control\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Baptiste Langlade",
+                    "email": "langlade.baptiste@gmail.com"
+                }
+            ],
+            "description": "Allows to control the server from php",
+            "homepage": "http://github.com/Innmind/ServerControl",
+            "time": "2018-11-11T12:53:24+00:00"
         },
         {
             "name": "innmind/stack-trace",
@@ -1098,26 +1071,25 @@
         },
         {
             "name": "innmind/xml",
-            "version": "4.3.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Innmind/XML.git",
-                "reference": "566c856ab5263809a0de68e2937dd08bc9ac1166"
+                "reference": "d89a155e1da444fe74db677ec2dd2405a0493e1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Innmind/XML/zipball/566c856ab5263809a0de68e2937dd08bc9ac1166",
-                "reference": "566c856ab5263809a0de68e2937dd08bc9ac1166",
+                "url": "https://api.github.com/repos/Innmind/XML/zipball/d89a155e1da444fe74db677ec2dd2405a0493e1e",
+                "reference": "d89a155e1da444fe74db677ec2dd2405a0493e1e",
                 "shasum": ""
             },
             "require": {
-                "innmind/immutable": "~2.0",
+                "innmind/immutable": "~2.12",
                 "innmind/stream": "^1.3",
                 "php": "~7.2"
             },
             "require-dev": {
-                "innmind/compose": "^1.0",
-                "phpunit/phpunit": "~6.0"
+                "phpunit/phpunit": "~7.0"
             },
             "type": "library",
             "autoload": {
@@ -1143,7 +1115,7 @@
             "keywords": [
                 "xml"
             ],
-            "time": "2018-09-01T13:57:06+00:00"
+            "time": "2019-01-05T09:34:18+00:00"
         },
         {
             "name": "league/uri",
@@ -1666,55 +1638,6 @@
             "time": "2018-07-02T15:55:56+00:00"
         },
         {
-            "name": "psr/container",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "time": "2017-02-14T16:28:37+00:00"
-        },
-        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -1982,69 +1905,6 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
-            "name": "symfony/config",
-            "version": "v4.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "25a2e7abe0d97e70282537292e3df45cf6da7b98"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/25a2e7abe0d97e70282537292e3df45cf6da7b98",
-                "reference": "25a2e7abe0d97e70282537292e3df45cf6da7b98",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/filesystem": "~3.4|~4.0",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "conflict": {
-                "symfony/finder": "<3.4"
-            },
-            "require-dev": {
-                "symfony/dependency-injection": "~3.4|~4.0",
-                "symfony/event-dispatcher": "~3.4|~4.0",
-                "symfony/finder": "~3.4|~4.0",
-                "symfony/yaml": "~3.4|~4.0"
-            },
-            "suggest": {
-                "symfony/yaml": "To use the yaml reference dumper"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Config\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Config Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-01-30T11:44:30+00:00"
-        },
-        {
             "name": "symfony/dom-crawler",
             "version": "v3.4.22",
             "source": {
@@ -2258,60 +2118,6 @@
             "time": "2019-01-16T20:35:37+00:00"
         },
         {
-            "name": "symfony/options-resolver",
-            "version": "v4.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "831b272963a8aa5a0613a1a7f013322d8161bbbb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/831b272963a8aa5a0613a1a7f013322d8161bbbb",
-                "reference": "831b272963a8aa5a0613a1a7f013322d8161bbbb",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\OptionsResolver\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony OptionsResolver Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "config",
-                "configuration",
-                "options"
-            ],
-            "time": "2019-01-16T21:31:25+00:00"
-        },
-        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.10.0",
             "source": {
@@ -2429,31 +2235,21 @@
             "time": "2018-09-21T13:07:52+00:00"
         },
         {
-            "name": "symfony/yaml",
+            "name": "symfony/process",
             "version": "v4.2.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0"
+                "url": "https://github.com/symfony/process.git",
+                "reference": "6c05edb11fbeff9e2b324b4270ecb17911a8b7ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d461670ee145092b7e2a56c1da7118f19cadadb0",
-                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0",
+                "url": "https://api.github.com/repos/symfony/process/zipball/6c05edb11fbeff9e2b324b4270ecb17911a8b7ad",
+                "reference": "6c05edb11fbeff9e2b324b4270ecb17911a8b7ad",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "conflict": {
-                "symfony/console": "<3.4"
-            },
-            "require-dev": {
-                "symfony/console": "~3.4|~4.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
+                "php": "^7.1.3"
             },
             "type": "library",
             "extra": {
@@ -2463,7 +2259,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
+                    "Symfony\\Component\\Process\\": ""
                 },
                 "exclude-from-classmap": [
                     "/Tests/"
@@ -2483,9 +2279,9 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Yaml Component",
+            "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-16T20:35:37+00:00"
+            "time": "2019-01-24T22:05:03+00:00"
         }
     ],
     "packages-dev": [

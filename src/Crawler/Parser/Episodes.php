@@ -12,8 +12,8 @@ use Innmind\Crawler\{
     HttpResource\Attribute\Attribute,
 };
 use Innmind\XML\{
-    ReaderInterface,
-    ElementInterface,
+    Reader,
+    Element,
 };
 use Innmind\Http\Message\{
     Request,
@@ -28,26 +28,26 @@ use Innmind\Immutable\{
 
 final class Episodes implements Parser
 {
-    private $reader;
+    private $read;
     private $clock;
 
     public function __construct(
-        ReaderInterface $reader,
+        Reader $read,
         TimeContinuumInterface $clock
     ) {
-        $this->reader = $reader;
+        $this->read = $read;
         $this->clock = $clock;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parse(
+    public function __invoke(
         Request $request,
         Response $response,
         MapInterface $attributes
     ): MapInterface {
-        $document = $this->reader->read($response->body());
+        $document = ($this->read)($response->body());
         $episodes = (new Visit)($document);
 
         return $attributes->put(
@@ -56,7 +56,7 @@ final class Episodes implements Parser
                 self::key(),
                 $episodes->reduce(
                     new Set(Episode::class),
-                    function(Set $series, ElementInterface $episode): Set {
+                    function(Set $series, Element $episode): Set {
                         $show = trim($episode
                             ->children()
                             ->get(1)

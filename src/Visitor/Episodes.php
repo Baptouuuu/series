@@ -4,13 +4,13 @@ declare(strict_types = 1);
 namespace Series\Visitor;
 
 use Innmind\Xml\{
-    ElementInterface,
-    NodeInterface
+    Element,
+    Node,
 };
 use Innmind\Immutable\{
     SetInterface,
     Set,
-    Str
+    Str,
 };
 
 /**
@@ -23,14 +23,14 @@ final class Episodes
     private $currentDay;
 
     /**
-     * @return SetInterface<ElementInterface>
+     * @return SetInterface<Element>
      */
-    public function __invoke(NodeInterface $element): SetInterface
+    public function __invoke(Node $element): SetInterface
     {
-        $elements = new Set(ElementInterface::class);
+        $elements = new Set(Element::class);
 
         if (
-            $element instanceof ElementInterface &&
+            $element instanceof Element &&
             $element->attributes()->contains('class')
         ) {
             $class = new Str($element->attributes()->get('class')->value());
@@ -46,12 +46,12 @@ final class Episodes
 
         return $element
             ->children()
-            ->filter(static function(int $position, NodeInterface $node): bool {
-                return $node instanceof ElementInterface;
+            ->filter(static function(int $position, Node $node): bool {
+                return $node instanceof Element;
             })
             ->reduce(
                 $elements,
-                function(Set $elements, int $position, ElementInterface $element): Set {
+                function(Set $elements, int $position, Element $element): Set {
                     return $elements->merge($this($element));
                 }
             );

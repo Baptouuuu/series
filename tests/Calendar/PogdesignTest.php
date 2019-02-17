@@ -40,7 +40,7 @@ class PogdesignTest extends TestCase
         );
         $crawler
             ->expects($this->once())
-            ->method('execute')
+            ->method('__invoke')
             ->with($this->callback(static function($request): bool {
                 return (string) $request->url() === 'https://www.pogdesign.co.uk/cat/4-2018' &&
                     (string) $request->method() === 'GET' &&
