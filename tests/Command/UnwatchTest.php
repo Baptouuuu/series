@@ -64,6 +64,8 @@ class UnwatchTest extends TestCase
             ->expects($this->any())
             ->method('input')
             ->willReturn(new class implements Readable, Selectable {
+                private $resource;
+
                 public function close(): Stream
                 {
                     return $this;
@@ -96,7 +98,7 @@ class UnwatchTest extends TestCase
                 }
                 public function resource()
                 {
-                    return tmpfile();
+                    return $this->resource ?? $this->resource = tmpfile();
                 }
                 public function read(int $length = null): Str
                 {

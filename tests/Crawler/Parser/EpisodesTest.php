@@ -16,38 +16,25 @@ use Innmind\Http\Message\{
     Response,
 };
 use Innmind\Stream\Readable\Stream;
-use Innmind\Html\{
-    Reader\Reader,
-    Translator\NodeTranslators as HtmlTranslators
-};
-use Innmind\Xml\Translator\{
-    NodeTranslator,
-    NodeTranslators,
-};
 use Innmind\TimeContinuum\TimeContinuum\Earth;
 use Innmind\Immutable\{
     MapInterface,
     Map,
     SetInterface,
 };
+use function Innmind\Html\bootstrap as html;
 use PHPUnit\Framework\TestCase;
 
 class EpisodesTest extends TestCase
 {
     public function testInterface()
     {
-        $parser = new Episodes(
-            new Reader(
-                new NodeTranslator(
-                    NodeTranslators::defaults()->merge(
-                        HtmlTranslators::defaults()
-                    )
-                )
-            ),
+        $parse = new Episodes(
+            html(),
             $clock = new Earth
         );
 
-        $this->assertInstanceOf(Parser::class, $parser);
+        $this->assertInstanceOf(Parser::class, $parse);
         $this->assertSame('episodes', Episodes::key());
 
         $response = $this->createMock(Response::class);
@@ -56,7 +43,7 @@ class EpisodesTest extends TestCase
             ->method('body')
             ->willReturn(new Stream(fopen('fixtures/pogdesign.html', 'r')));
 
-        $attributes = $parser->parse(
+        $attributes = $parse(
             $this->createMock(Request::class),
             $response,
             new Map('string', Attribute::class)

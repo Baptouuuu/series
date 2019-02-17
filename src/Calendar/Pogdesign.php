@@ -19,11 +19,11 @@ use Innmind\Immutable\SetInterface;
 
 final class Pogdesign implements Calendar
 {
-    private $crawler;
+    private $crawl;
 
-    public function __construct(Crawler $crawler)
+    public function __construct(Crawler $crawl)
     {
-        $this->crawler = $crawler;
+        $this->crawl = $crawl;
     }
 
     /**
@@ -31,9 +31,7 @@ final class Pogdesign implements Calendar
      */
     public function __invoke(PointInTimeInterface $month): SetInterface
     {
-        return $this
-            ->crawler
-            ->execute(
+        return ($this->crawl)(
                 new Request(
                     Url::fromString('https://www.pogdesign.co.uk/cat/'.$month->format(new UrlFormat)),
                     new Method('GET'),
