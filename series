@@ -26,10 +26,11 @@ use Innmind\CLI\{
 };
 use Innmind\Compose\ContainerBuilder\ContainerBuilder;
 use Innmind\Url\Path;
+use Innmind\OperatingSystem\OperatingSystem;
 use Innmind\Immutable\Map;
 
 new class extends Main {
-    protected function main(Environment $env): void
+    protected function main(Environment $env, OperatingSystem $os): void
     {
         $home = $env->variables()->get('HOME');
 

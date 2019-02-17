@@ -20,6 +20,7 @@ use Innmind\TimeContinuum\{
     TimeContinuumInterface,
     PointInTimeInterface,
     PointInTime\Earth\PointInTime,
+    FormatInterface,
     Format\ISO8601,
 };
 use Innmind\Stream\Writable;
@@ -53,7 +54,7 @@ class ReportTest extends TestCase
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time): PointInTimeInterface
+                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
@@ -117,7 +118,7 @@ class ReportTest extends TestCase
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time): PointInTimeInterface
+                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
@@ -212,7 +213,7 @@ class ReportTest extends TestCase
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time): PointInTimeInterface
+                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
