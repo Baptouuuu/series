@@ -16,7 +16,7 @@ class FilesystemTest extends TestCase
     private $storage;
     private $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->storage = new Filesystem(
             $this->adapter = new MemoryAdapter,
