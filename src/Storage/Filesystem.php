@@ -18,8 +18,8 @@ use Innmind\Immutable\{
 
 final class Filesystem implements Storage
 {
-    private $filesystem;
-    private $file;
+    private Adapter $filesystem;
+    private String $file;
 
     public function __construct(Adapter $adapter, string $file)
     {

@@ -8,10 +8,10 @@ use Innmind\Immutable\Str;
 
 final class Episode
 {
-    private $show;
-    private $season;
-    private $episode;
-    private $airedAt;
+    private string $show;
+    private int $season;
+    private int $episode;
+    private PointInTimeInterface $airedAt;
 
     public function __construct(
         string $show,

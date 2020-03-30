@@ -19,7 +19,7 @@ use Innmind\Immutable\SetInterface;
 
 final class Pogdesign implements Calendar
 {
-    private $crawl;
+    private Crawler $crawl;
 
     public function __construct(Crawler $crawl)
     {

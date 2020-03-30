@@ -13,8 +13,8 @@ use Innmind\Immutable\SetInterface;
 
 final class StorageAware implements Calendar
 {
-    private $calendar;
-    private $watching;
+    private Calendar $calendar;
+    private Storage $watching;
 
     public function __construct(Calendar $calendar, Storage $watching)
     {

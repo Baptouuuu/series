@@ -23,10 +23,10 @@ use Innmind\Immutable\{
 
 final class Watch implements Command
 {
-    private $watching;
-    private $notWatching;
-    private $calendar;
-    private $clock;
+    private Storage $watching;
+    private Storage $notWatching;
+    private Calendar $calendar;
+    private TimeContinuumInterface $clock;
 
     public function __construct(
         Storage $watching,

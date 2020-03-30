@@ -20,9 +20,9 @@ use Innmind\Filesystem\{
 
 final class Filesystem implements LastReport
 {
-    private $filesystem;
-    private $file;
-    private $clock;
+    private Adapter $filesystem;
+    private string $file;
+    private TimeContinuumInterface $clock;
 
     public function __construct(
         Adapter $filesystem,

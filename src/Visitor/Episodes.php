@@ -6,6 +6,7 @@ namespace Series\Visitor;
 use Innmind\Xml\{
     Element,
     Node,
+    Attribute
 };
 use Innmind\Immutable\{
     SetInterface,
@@ -20,7 +21,7 @@ use Innmind\Immutable\{
  */
 final class Episodes
 {
-    private $currentDay;
+    private ?Attribute $currentDay = null;
 
     /**
      * @return SetInterface<Element>

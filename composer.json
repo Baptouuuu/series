@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "~7.2",
+        "php": "~7.4",
         "innmind/cli": "^1.2",
         "innmind/immutable": "^2.8",
         "innmind/html": "~4.0",

@@ -28,9 +28,9 @@ use Innmind\Immutable\{
 
 final class Report implements Command
 {
-    private $calendar;
-    private $clock;
-    private $lastReport;
+    private Calendar $calendar;
+    private TimeContinuumInterface $clock;
+    private LastReport $lastReport;
 
     public function __construct(
         Calendar $calendar,

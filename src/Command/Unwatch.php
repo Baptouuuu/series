@@ -15,8 +15,8 @@ use Innmind\Immutable\Map;
 
 final class Unwatch implements Command
 {
-    private $watching;
-    private $notWatching;
+    private Storage $watching;
+    private Storage $notWatching;
 
     public function __construct(Storage $watching, Storage $notWatching)
     {

@@ -28,8 +28,8 @@ use Innmind\Immutable\{
 
 final class Episodes implements Parser
 {
-    private $read;
-    private $clock;
+    private Reader $read;
+    private TimeContinuumInterface $clock;
 
     public function __construct(
         Reader $read,
