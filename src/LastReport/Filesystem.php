@@ -8,50 +8,51 @@ use Series\{
     Exception\RuntimeException,
 };
 use Innmind\TimeContinuum\{
-    TimeContinuumInterface,
-    PointInTimeInterface,
-    Format\ISO8601,
+    Clock,
+    PointInTime,
+    Earth\Format\ISO8601,
 };
 use Innmind\Filesystem\{
     Adapter,
     File\File,
-    Stream\StringStream,
+    Name,
 };
+use Innmind\Stream\Readable\Stream;
 
 final class Filesystem implements LastReport
 {
-    private $filesystem;
-    private $file;
-    private $clock;
+    private Adapter $filesystem;
+    private Name $file;
+    private Clock $clock;
 
     public function __construct(
         Adapter $filesystem,
         string $file,
-        TimeContinuumInterface $clock
+        Clock $clock
     ) {
         $this->filesystem = $filesystem;
-        $this->file = $file;
+        $this->file = new Name($file);
         $this->clock = $clock;
     }
 
-    public function at(PointInTimeInterface $time): LastReport
+    public function at(PointInTime $time): LastReport
     {
         $this->filesystem->add(new File(
             $this->file,
-            new StringStream($time->format(new ISO8601))
+            Stream::ofContent($time->format(new ISO8601))
         ));
 
         return $this;
     }
 
-    public function when(): PointInTimeInterface
+    public function when(): PointInTime
     {
-        if (!$this->filesystem->has($this->file)) {
+        if (!$this->filesystem->contains($this->file)) {
             throw new RuntimeException;
         }
 
         return $this->clock->at(
-            (string) $this->filesystem->get($this->file)->content()
+            $this->filesystem->get($this->file)->content()->toString()
         );
     }
 }

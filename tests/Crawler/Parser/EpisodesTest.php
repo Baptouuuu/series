@@ -16,12 +16,12 @@ use Innmind\Http\Message\{
     Response,
 };
 use Innmind\Stream\Readable\Stream;
-use Innmind\TimeContinuum\TimeContinuum\Earth;
+use Innmind\TimeContinuum\Earth\Clock as Earth;
 use Innmind\Immutable\{
-    MapInterface,
     Map,
-    SetInterface,
+    Set,
 };
+use function Innmind\Immutable\first;
 use function Innmind\Html\bootstrap as html;
 use PHPUnit\Framework\TestCase;
 
@@ -46,19 +46,19 @@ class EpisodesTest extends TestCase
         $attributes = $parse(
             $this->createMock(Request::class),
             $response,
-            new Map('string', Attribute::class)
+            Map::of('string', Attribute::class)
         );
 
-        $this->assertInstanceOf(MapInterface::class, $attributes);
+        $this->assertInstanceOf(Map::class, $attributes);
         $this->assertSame('string', (string) $attributes->keyType());
         $this->assertSame(Attribute::class, (string) $attributes->valueType());
         $this->assertCount(1, $attributes);
         $episodes = $attributes->get('episodes')->content();
-        $this->assertInstanceOf(SetInterface::class, $episodes);
+        $this->assertInstanceOf(Set::class, $episodes);
         $this->assertSame(Episode::class, (string) $episodes->type());
         $this->assertCount(552, $episodes);
         $this->assertTrue(
-            $episodes->current()->airedBetween(
+            first($episodes)->airedBetween(
                 $clock->at('2018-02-28 23:59:59'),
                 $clock->at('2018-03-01 00:00:01')
             )

@@ -1,10 +1,7 @@
 # Series
 
-| `master` | `develop` |
-|----------|-----------|
-| [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Baptouuuu/series/?branch=master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Baptouuuu/series/?branch=develop) |
-| [![Code Coverage](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Baptouuuu/series/?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Baptouuuu/series/?branch=develop) |
-| [![Build Status](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Baptouuuu/series/build-status/master) | [![Build Status](https://scrutinizer-ci.com/g/Baptouuuu/series/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/Baptouuuu/series/build-status/develop) |
+[![Build Status](https://github.com/Baptouuuu/Series/workflows/CI/badge.svg)](https://github.com/Baptouuuu/Series/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/Baptouuuu/Series/branch/develop/graph/badge.svg)](https://codecov.io/gh/Baptouuuu/Series)
 
 This tool allows you to report the episodes of your tv shows you need to watch.
 

@@ -16,9 +16,10 @@ use Innmind\CLI\{
     Environment,
 };
 use Innmind\TimeContinuum\{
-    TimeContinuumInterface,
-    PointInTimeInterface,
+    Clock,
+    PointInTime,
 };
+use Innmind\OperatingSystem\Sockets;
 use Innmind\Stream\{
     Stream,
     Stream\Position,
@@ -31,6 +32,7 @@ use Innmind\Stream\{
 use Innmind\Immutable\{
     Set,
     Str,
+    Sequence,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +46,8 @@ class WatchTest extends TestCase
                 $this->createMock(Storage::class),
                 $this->createMock(Storage::class),
                 $this->createMock(Calendar::class),
-                $this->createMock(TimeContinuumInterface::class)
+                $this->createMock(Clock::class),
+                $this->createMock(Sockets::class),
             )
         );
     }
@@ -55,7 +58,8 @@ class WatchTest extends TestCase
             $watching = $this->createMock(Storage::class),
             $notWatching = $this->createMock(Storage::class),
             $calendar = $this->createMock(Calendar::class),
-            $clock = $this->createMock(TimeContinuumInterface::class)
+            $clock = $this->createMock(Clock::class),
+            new Sockets\Unix,
         );
         $watching
             ->expects($this->once())
@@ -80,31 +84,38 @@ class WatchTest extends TestCase
         $clock
             ->expects($this->once())
             ->method('now')
-            ->willReturn($now = $this->createMock(PointInTimeInterface::class));
+            ->willReturn($now = $this->createMock(PointInTime::class));
         $calendar
             ->expects($this->once())
             ->method('__invoke')
             ->with($now)
             ->willReturn(Set::of(
                 Episode::class,
-                new Episode('foo', 1, 1, $this->createMock(PointInTimeInterface::class)),
-                new Episode('tbbt', 1, 1, $this->createMock(PointInTimeInterface::class)),
-                new Episode('bar', 1, 1, $this->createMock(PointInTimeInterface::class)),
-                new Episode('watev', 1, 1, $this->createMock(PointInTimeInterface::class)),
-                new Episode('ys', 1, 1, $this->createMock(PointInTimeInterface::class)),
-                new Episode('baz', 1, 1, $this->createMock(PointInTimeInterface::class))
+                new Episode('foo', 1, 1, $this->createMock(PointInTime::class)),
+                new Episode('tbbt', 1, 1, $this->createMock(PointInTime::class)),
+                new Episode('bar', 1, 1, $this->createMock(PointInTime::class)),
+                new Episode('watev', 1, 1, $this->createMock(PointInTime::class)),
+                new Episode('ys', 1, 1, $this->createMock(PointInTime::class)),
+                new Episode('baz', 1, 1, $this->createMock(PointInTime::class))
             ));
 
         $env = $this->createMock(Environment::class);
+        $env
+            ->expects($this->any())
+            ->method('interactive')
+            ->willReturn(true);
+        $env
+            ->expects($this->any())
+            ->method('arguments')
+            ->willReturn(Sequence::strings());
         $env
             ->expects($this->any())
             ->method('input')
             ->willReturn(new class implements Readable, Selectable {
                 private $resource;
 
-                public function close(): Stream
+                public function close(): void
                 {
-                    return $this;
                 }
                 public function closed(): bool
                 {
@@ -113,13 +124,11 @@ class WatchTest extends TestCase
                 public function position(): Position
                 {
                 }
-                public function seek(Position $position, Mode $mode = null): Stream
+                public function seek(Position $position, Mode $mode = null): void
                 {
-                    return $this;
                 }
-                public function rewind(): Stream
+                public function rewind(): void
                 {
-                    return $this;
                 }
                 public function end(): bool
                 {
@@ -144,7 +153,7 @@ class WatchTest extends TestCase
                 {
                     return Str::of('not used');
                 }
-                public function __toString(): string
+                public function toString(): string
                 {
                     return 'not used';
                 }
@@ -157,25 +166,25 @@ class WatchTest extends TestCase
             ->expects($this->at(0))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "Series to watch:\n";
+                return $line->toString() === "Series to watch:\n";
             }));
         $output
             ->expects($this->at(1))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[0] foo\n";
+                return $line->toString() === "[0] foo\n";
             }));
         $output
             ->expects($this->at(2))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[1] bar\n";
+                return $line->toString() === "[1] bar\n";
             }));
         $output
             ->expects($this->at(3))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[2] baz\n";
+                return $line->toString() === "[2] baz\n";
             }));
 
         $this->assertNull($command(
@@ -199,11 +208,12 @@ You'll need to run this command every month if you want to
 follow new shows
 USAGE;
 
-        $this->assertSame($expected, (string) new Watch(
+        $this->assertSame($expected, (new Watch(
             $this->createMock(Storage::class),
             $this->createMock(Storage::class),
             $this->createMock(Calendar::class),
-            $this->createMock(TimeContinuumInterface::class)
-        ));
+            $this->createMock(Clock::class),
+            $this->createMock(Sockets::class),
+        ))->toString());
     }
 }

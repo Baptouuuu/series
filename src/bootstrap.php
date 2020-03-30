@@ -5,7 +5,8 @@ namespace Series;
 
 use Innmind\Filesystem\Adapter;
 use Innmind\HttpTransport\Transport;
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
+use Innmind\OperatingSystem\Sockets;
 use Innmind\CLI\Commands;
 use Innmind\Crawler\Crawler\Crawler as Crawl;
 use function Innmind\Html\bootstrap as html;
@@ -13,7 +14,8 @@ use function Innmind\Html\bootstrap as html;
 function bootstrap(
     Adapter $filesystem,
     Transport $transport,
-    TimeContinuumInterface $clock
+    Clock $clock,
+    Sockets $sockets
 ): Commands {
     $watching = new Storage\Filesystem(
         $filesystem,
@@ -34,8 +36,8 @@ function bootstrap(
     );
 
     return new Commands(
-        new Command\Watch($watching, $notWatching, $calendar, $clock),
-        new Command\Unwatch($watching, $notWatching),
+        new Command\Watch($watching, $notWatching, $calendar, $clock, $sockets),
+        new Command\Unwatch($watching, $notWatching, $sockets),
         new Command\Report(
             new Calendar\StorageAware(
                 $calendar,

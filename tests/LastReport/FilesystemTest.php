@@ -9,14 +9,15 @@ use Series\{
     Exception\RuntimeException,
 };
 use Innmind\Filesystem\{
-    Adapter\MemoryAdapter,
+    Adapter\InMemory,
     Adapter,
+    Name,
 };
 use Innmind\TimeContinuum\{
-    TimeContinuumInterface,
-    TimeContinuum\Earth,
-    PointInTimeInterface,
-    Format\ISO8601,
+    Clock,
+    PointInTime,
+    Earth\Clock as Earth,
+    Earth\Format\ISO8601,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,7 @@ class FilesystemTest extends TestCase
             new Filesystem(
                 $this->createMock(Adapter::class),
                 'report.txt',
-                $this->createMock(TimeContinuumInterface::class)
+                $this->createMock(Clock::class)
             )
         );
     }
@@ -37,21 +38,21 @@ class FilesystemTest extends TestCase
     public function testAt()
     {
         $report = new Filesystem(
-            $adapter = new MemoryAdapter,
+            $adapter = new InMemory,
             'report.txt',
-            $this->createMock(TimeContinuumInterface::class)
+            $this->createMock(Clock::class)
         );
-        $time = $this->createMock(PointInTimeInterface::class);
+        $time = $this->createMock(PointInTime::class);
         $time
             ->expects($this->once())
             ->method('format')
             ->with(new ISO8601)
             ->willReturn('foo');
 
-        $this->assertFalse($adapter->has('report.txt'));
+        $this->assertFalse($adapter->contains(new Name('report.txt')));
         $this->assertSame($report, $report->at($time));
-        $this->assertTrue($adapter->has('report.txt'));
-        $this->assertSame('foo', (string) $adapter->get('report.txt')->content());
+        $this->assertTrue($adapter->contains(new Name('report.txt')));
+        $this->assertSame('foo', $adapter->get(new Name('report.txt'))->content()->toString());
     }
 
     public function testThrowWhenNeverReported()
@@ -59,23 +60,23 @@ class FilesystemTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         (new Filesystem(
-            new MemoryAdapter,
+            new InMemory,
             'foo',
-            $this->createMock(TimeContinuumInterface::class)
+            $this->createMock(Clock::class)
         ))->when();
     }
 
     public function testWhen()
     {
         $report = new Filesystem(
-            new MemoryAdapter,
+            new InMemory,
             'foo',
             $clock = new Earth
         );
         $time = $clock->at('2018-03-04');
         $report->at($time);
 
-        $this->assertInstanceOf(PointInTimeInterface::class, $report->when());
+        $this->assertInstanceOf(PointInTime::class, $report->when());
         $this->assertNotSame($time, $report->when());
         $this->assertTrue($report->when()->equals($time));
     }

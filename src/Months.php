@@ -4,32 +4,29 @@ declare(strict_types = 1);
 namespace Series;
 
 use Innmind\TimeContinuum\{
-    PointInTimeInterface,
-    Period\Earth\Month,
-    Period\Earth\Day,
-    Period\Earth\Hour,
-    Period\Earth\Minute,
-    Period\Earth\Second,
-    Period\Earth\Millisecond,
+    PointInTime,
+    Earth\Period\Month,
+    Earth\Period\Day,
+    Earth\Period\Hour,
+    Earth\Period\Minute,
+    Earth\Period\Second,
+    Earth\Period\Millisecond,
 };
-use Innmind\Immutable\{
-    SetInterface,
-    Set,
-};
+use Innmind\Immutable\Set;
 
 final class Months
 {
     /**
-     * @return SetInterface<PointInTimeInterface>
+     * @return Set<PointInTime>
      */
     public function __invoke(
-        PointInTimeInterface $since,
-        PointInTimeInterface $to
-    ): SetInterface {
+        PointInTime $since,
+        PointInTime $to
+    ): Set {
         $since = $this->reset($since);
         $to = $this->reset($to);
 
-        $months = Set::of(PointInTimeInterface::class);
+        $months = Set::of(PointInTime::class);
         $month = $since;
 
         do {
@@ -47,7 +44,7 @@ final class Months
     /**
      * Move the point to the start of the month so we can safely move month to month
      */
-    private function reset(PointInTimeInterface $time): PointInTimeInterface
+    private function reset(PointInTime $time): PointInTime
     {
         return $time->goBack(
             (new Day($time->day()->toInt() - 1))

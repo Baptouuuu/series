@@ -27,9 +27,10 @@ new class extends Main {
     protected function main(Environment $env, OperatingSystem $os): void
     {
         $run = bootstrap(
-            $os->filesystem()->mount(new Path($env->variables()->get('HOME').'/.series')),
+            $os->filesystem()->mount(Path::of($env->variables()->get('HOME').'/.series/')),
             $os->remote()->http(),
-            $os->clock()
+            $os->clock(),
+            $os->sockets(),
         );
         $run($env);
     }

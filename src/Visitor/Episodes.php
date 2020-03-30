@@ -6,9 +6,9 @@ namespace Series\Visitor;
 use Innmind\Xml\{
     Element,
     Node,
+    Attribute
 };
 use Innmind\Immutable\{
-    SetInterface,
     Set,
     Str,
 };
@@ -20,20 +20,20 @@ use Innmind\Immutable\{
  */
 final class Episodes
 {
-    private $currentDay;
+    private ?Attribute $currentDay = null;
 
     /**
-     * @return SetInterface<Element>
+     * @return Set<Element>
      */
-    public function __invoke(Node $element): SetInterface
+    public function __invoke(Node $element): Set
     {
-        $elements = new Set(Element::class);
+        $elements = Set::of(Element::class);
 
         if (
             $element instanceof Element &&
             $element->attributes()->contains('class')
         ) {
-            $class = new Str($element->attributes()->get('class')->value());
+            $class = Str::of($element->attributes()->get('class')->value());
 
             if ($class->matches('/^ep( t[12])? info/')) {
                 return $elements->add(
@@ -46,12 +46,12 @@ final class Episodes
 
         return $element
             ->children()
-            ->filter(static function(int $position, Node $node): bool {
+            ->filter(static function(Node $node): bool {
                 return $node instanceof Element;
             })
             ->reduce(
                 $elements,
-                function(Set $elements, int $position, Element $element): Set {
+                function(Set $elements, Element $element): Set {
                     return $elements->merge($this($element));
                 }
             );

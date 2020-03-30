@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Series\Time;
 
-use Innmind\TimeContinuum\FormatInterface;
+use Innmind\TimeContinuum\Format;
 
-final class UrlFormat implements FormatInterface
+final class UrlFormat implements Format
 {
-    public function __toString(): string
+    public function toString(): string
     {
         return 'n-Y';
     }

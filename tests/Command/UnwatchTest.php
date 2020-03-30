@@ -13,6 +13,7 @@ use Innmind\CLI\{
     Command\Options,
     Environment,
 };
+use Innmind\OperatingSystem\Sockets;
 use Innmind\Stream\{
     Stream,
     Stream\Position,
@@ -25,6 +26,7 @@ use Innmind\Stream\{
 use Innmind\Immutable\{
     Set,
     Str,
+    Sequence,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +38,8 @@ class UnwatchTest extends TestCase
             Command::class,
             new Unwatch(
                 $this->createMock(Storage::class),
-                $this->createMock(Storage::class)
+                $this->createMock(Storage::class),
+                $this->createMock(Sockets::class),
             )
         );
     }
@@ -45,7 +48,8 @@ class UnwatchTest extends TestCase
     {
         $command = new Unwatch(
             $watching = $this->createMock(Storage::class),
-            $notWatching = $this->createMock(Storage::class)
+            $notWatching = $this->createMock(Storage::class),
+            new Sockets\Unix,
         );
         $watching
             ->expects($this->once())
@@ -62,13 +66,20 @@ class UnwatchTest extends TestCase
         $env = $this->createMock(Environment::class);
         $env
             ->expects($this->any())
+            ->method('interactive')
+            ->willReturn(true);
+        $env
+            ->expects($this->any())
+            ->method('arguments')
+            ->willReturn(Sequence::strings());
+        $env
+            ->expects($this->any())
             ->method('input')
             ->willReturn(new class implements Readable, Selectable {
                 private $resource;
 
-                public function close(): Stream
+                public function close(): void
                 {
-                    return $this;
                 }
                 public function closed(): bool
                 {
@@ -77,13 +88,11 @@ class UnwatchTest extends TestCase
                 public function position(): Position
                 {
                 }
-                public function seek(Position $position, Mode $mode = null): Stream
+                public function seek(Position $position, Mode $mode = null): void
                 {
-                    return $this;
                 }
-                public function rewind(): Stream
+                public function rewind(): void
                 {
-                    return $this;
                 }
                 public function end(): bool
                 {
@@ -108,7 +117,7 @@ class UnwatchTest extends TestCase
                 {
                     return Str::of('not used');
                 }
-                public function __toString(): string
+                public function toString(): string
                 {
                     return 'not used';
                 }
@@ -121,25 +130,25 @@ class UnwatchTest extends TestCase
             ->expects($this->at(0))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "Shows to stop watching:\n";
+                return $line->toString() === "Shows to stop watching:\n";
             }));
         $output
             ->expects($this->at(1))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[0] foo\n";
+                return $line->toString() === "[0] foo\n";
             }));
         $output
             ->expects($this->at(2))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[1] bar\n";
+                return $line->toString() === "[1] bar\n";
             }));
         $output
             ->expects($this->at(3))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "[2] baz\n";
+                return $line->toString() === "[2] baz\n";
             }));
 
         $this->assertNull($command(
@@ -157,9 +166,10 @@ unwatch
 Choose the series you want to stop watching
 USAGE;
 
-        $this->assertSame($expected, (string) new Unwatch(
+        $this->assertSame($expected, (new Unwatch(
             $this->createMock(Storage::class),
-            $this->createMock(Storage::class)
-        ));
+            $this->createMock(Storage::class),
+            $this->createMock(Sockets::class),
+        ))->toString());
     }
 }

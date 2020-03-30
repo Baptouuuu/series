@@ -8,18 +8,18 @@ use Series\{
     Time\UrlFormat,
 };
 use Innmind\Crawler\Crawler;
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 use Innmind\Http\{
     Message\Request\Request,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    Message\Method,
+    ProtocolVersion,
 };
 use Innmind\Url\Url;
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 
 final class Pogdesign implements Calendar
 {
-    private $crawl;
+    private Crawler $crawl;
 
     public function __construct(Crawler $crawl)
     {
@@ -29,12 +29,12 @@ final class Pogdesign implements Calendar
     /**
      * {@inheritdoc}
      */
-    public function __invoke(PointInTimeInterface $month): SetInterface
+    public function __invoke(PointInTime $month): Set
     {
         return ($this->crawl)(
                 new Request(
-                    Url::fromString('https://www.pogdesign.co.uk/cat/'.$month->format(new UrlFormat)),
-                    new Method('GET'),
+                    Url::of('https://www.pogdesign.co.uk/cat/'.$month->format(new UrlFormat)),
+                    Method::get(),
                     new ProtocolVersion(2, 0)
                 )
             )
