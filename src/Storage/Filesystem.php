@@ -8,37 +8,39 @@ use Innmind\Filesystem\{
     Adapter,
     File,
     Stream\NullStream,
-    Stream\StringStream,
+    Name,
 };
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
-    SetInterface,
     Set,
     Str,
 };
+use function Innmind\Immutable\join;
 
 final class Filesystem implements Storage
 {
     private Adapter $filesystem;
-    private String $file;
+    private Name $file;
 
     public function __construct(Adapter $adapter, string $file)
     {
         $this->filesystem = $adapter;
-        $this->file = $file;
+        $this->file = new Name($file);
     }
 
     public function add(string $series): Storage
     {
         $file = $this->open();
         $this->save(new File\File(
-            (string) $file->name(),
-            new StringStream(
-                (string) Str::of("%s\n%s")
+            $file->name(),
+            Stream::ofContent(
+                Str::of("%s\n%s")
                     ->sprintf(
-                        (string) $file->content(),
+                        $file->content()->toString(),
                         $series
                     )
                     ->trim()
+                    ->toString()
             )
         ));
 
@@ -49,14 +51,20 @@ final class Filesystem implements Storage
     {
         $file = $this->open();
         $this->save(new File\File(
-            (string) $file->name(),
-            new StringStream(
-                (string) Str::of((string) $file->content())
-                    ->split("\n")
-                    ->filter(static function(Str $line) use ($series): bool {
-                        return (string) $line !== $series;
-                    })
-                    ->join("\n")
+            $file->name(),
+            Stream::ofContent(
+                join(
+                    "\n",
+                    Str::of($file->content()->toString())
+                        ->split("\n")
+                        ->filter(static function(Str $line) use ($series): bool {
+                            return $line->toString() !== $series;
+                        })
+                        ->mapTo(
+                            'string',
+                            static fn(Str $line): string => $line->toString(),
+                        )
+                )->toString()
             )
         ));
 
@@ -64,11 +72,11 @@ final class Filesystem implements Storage
     }
 
     /**
-     * @return SetInterface<string>
+     * @return Set<string>
      */
-    public function all(): SetInterface
+    public function all(): Set
     {
-        return Str::of((string) $this->open()->content())
+        return Str::of($this->open()->content()->toString())
             ->split("\n")
             ->filter(static function(Str $line): bool {
                 return !$line->empty();
@@ -76,14 +84,14 @@ final class Filesystem implements Storage
             ->reduce(
                 Set::of('string'),
                 static function(Set $series, Str $line): Set {
-                    return $series->add((string) $line);
+                    return $series->add($line->toString());
                 }
             );
     }
 
     private function open(): File
     {
-        if (!$this->filesystem->has($this->file)) {
+        if (!$this->filesystem->contains($this->file)) {
             return new File\File($this->file, new NullStream);
         }
 

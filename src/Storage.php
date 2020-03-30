@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Series;
 
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 
 interface Storage
 {
@@ -11,7 +11,7 @@ interface Storage
     public function remove(string $series): self;
 
     /**
-     * @return SetInterface<string>
+     * @return Set<string>
      */
-    public function all(): SetInterface;
+    public function all(): Set;
 }

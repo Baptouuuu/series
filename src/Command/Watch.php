@@ -15,7 +15,8 @@ use Innmind\CLI\{
     Environment,
     Question\ChoiceQuestion,
 };
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
+use Innmind\OperatingSystem\Sockets;
 use Innmind\Immutable\{
     Set,
     Map,
@@ -26,18 +27,21 @@ final class Watch implements Command
     private Storage $watching;
     private Storage $notWatching;
     private Calendar $calendar;
-    private TimeContinuumInterface $clock;
+    private Clock $clock;
+    private Sockets $sockets;
 
     public function __construct(
         Storage $watching,
         Storage $notWatching,
         Calendar $calendar,
-        TimeContinuumInterface $clock
+        Clock $clock,
+        Sockets $sockets
     ) {
         $this->watching = $watching;
         $this->notWatching = $notWatching;
         $this->calendar = $calendar;
         $this->clock = $clock;
+        $this->sockets = $sockets;
     }
 
     public function __invoke(Environment $env, Arguments $arguments, Options $options): void
@@ -52,7 +56,7 @@ final class Watch implements Command
             ->diff($this->watching->all()) // don't propose those already being wathed
             ->diff($this->notWatching->all()) // don't propose those already proposed
             ->reduce(
-                new Map('scalar', 'scalar'),
+                Map::of('scalar', 'scalar'),
                 static function(Map $shows, string $show): Map {
                     return $shows->put(
                         $shows->size(),
@@ -63,7 +67,7 @@ final class Watch implements Command
 
         $ask = new ChoiceQuestion('Series to watch:', $shows);
 
-        $toWatch = $ask($env->input(), $env->output());
+        $toWatch = $ask($env, $this->sockets);
 
         $toWatch->foreach(function($key, string $show): void {
             $this->watching->add($show);
@@ -76,7 +80,7 @@ final class Watch implements Command
             });
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 watch

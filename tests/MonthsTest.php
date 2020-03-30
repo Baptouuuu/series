@@ -5,11 +5,12 @@ namespace Tests\Series;
 
 use Series\Months;
 use Innmind\TimeContinuum\{
-    PointInTimeInterface,
-    PointInTime\Earth\PointInTime,
-    Format\ISO8601,
+    PointInTime as PointInTimeInterface,
+    Earth\PointInTime\PointInTime,
+    Earth\Format\ISO8601,
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class MonthsTest extends TestCase
@@ -21,12 +22,13 @@ class MonthsTest extends TestCase
             new PointInTime('2018-02-28 13:14:15.16')
         );
 
-        $this->assertInstanceOf(SetInterface::class, $months);
+        $this->assertInstanceOf(Set::class, $months);
         $this->assertSame(PointInTimeInterface::class, (string) $months->type());
         $this->assertCount(1, $months);
+        $months = unwrap($months);
         $this->assertSame(
             '2018-02-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
     }
 
@@ -38,29 +40,30 @@ class MonthsTest extends TestCase
         );
 
         $this->assertCount(5, $months);
+        $months = unwrap($months);
         $this->assertSame(
             '2018-02-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
-        $months->next();
+        \next($months);
         $this->assertSame(
             '2018-03-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
-        $months->next();
+        \next($months);
         $this->assertSame(
             '2018-04-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
-        $months->next();
+        \next($months);
         $this->assertSame(
             '2018-05-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
-        $months->next();
+        \next($months);
         $this->assertSame(
             '2018-06-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
     }
 
@@ -72,14 +75,15 @@ class MonthsTest extends TestCase
         );
 
         $this->assertCount(2, $months);
+        $months = unwrap($months);
         $this->assertSame(
             '2018-02-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
-        $months->next();
+        \next($months);
         $this->assertSame(
             '2018-03-01T00:00:00+00:00',
-            $months->current()->format(new ISO8601)
+            \current($months)->format(new ISO8601)
         );
     }
 }

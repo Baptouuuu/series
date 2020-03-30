@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Series;
 
 use Series\Episode;
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 use PHPUnit\Framework\TestCase;
 
 class EpisodeTest extends TestCase
@@ -15,10 +15,10 @@ class EpisodeTest extends TestCase
             'tbbt',
             1,
             6,
-            $airedAt = $this->createMock(PointInTimeInterface::class)
+            $airedAt = $this->createMock(PointInTime::class)
         );
-        $since = $this->createMock(PointInTimeInterface::class);
-        $to = $this->createMock(PointInTimeInterface::class);
+        $since = $this->createMock(PointInTime::class);
+        $to = $this->createMock(PointInTime::class);
         $airedAt
             ->expects($this->at(0))
             ->method('aheadOf')

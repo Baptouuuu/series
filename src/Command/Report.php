@@ -17,9 +17,9 @@ use Innmind\CLI\{
     Environment,
 };
 use Innmind\TimeContinuum\{
-    TimeContinuumInterface,
-    PointInTimeInterface,
-    Period\Earth\Day
+    Clock,
+    PointInTime,
+    Earth\Period\Day,
 };
 use Innmind\Immutable\{
     Str,
@@ -29,12 +29,12 @@ use Innmind\Immutable\{
 final class Report implements Command
 {
     private Calendar $calendar;
-    private TimeContinuumInterface $clock;
+    private Clock $clock;
     private LastReport $lastReport;
 
     public function __construct(
         Calendar $calendar,
-        TimeContinuumInterface $clock,
+        Clock $clock,
         LastReport $lastReport
     ) {
         $this->calendar = $calendar;
@@ -60,7 +60,7 @@ final class Report implements Command
         $months
             ->reduce(
                 Set::of(Episode::class),
-                function(Set $episodes, PointInTimeInterface $month): Set {
+                function(Set $episodes, PointInTime $month): Set {
                     return $episodes->merge(
                         ($this->calendar)($month)
                     );
@@ -77,7 +77,7 @@ final class Report implements Command
         $this->lastReport->at($now);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 report [since]

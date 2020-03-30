@@ -3,13 +3,13 @@ declare(strict_types = 1);
 
 namespace Series;
 
-use Innmind\TimeContinuum\PointInTimeInterface;
-use Innmind\Immutable\SetInterface;
+use Innmind\TimeContinuum\PointInTime;
+use Innmind\Immutable\Set;
 
 interface Calendar
 {
     /**
-     * @return SetInterface<Episode>
+     * @return Set<Episode>
      */
-    public function __invoke(PointInTimeInterface $month): SetInterface;
+    public function __invoke(PointInTime $month): Set;
 }

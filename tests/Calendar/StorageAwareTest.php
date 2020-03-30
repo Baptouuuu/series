@@ -9,11 +9,9 @@ use Series\{
     Storage,
     Episode,
 };
-use Innmind\TimeContinuum\PointInTimeInterface;
-use Innmind\Immutable\{
-    SetInterface,
-    Set,
-};
+use Innmind\TimeContinuum\PointInTime;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class StorageAwareTest extends TestCase
@@ -35,17 +33,17 @@ class StorageAwareTest extends TestCase
             $mock = $this->createMock(Calendar::class),
             $storage = $this->createMock(Storage::class)
         );
-        $time = $this->createMock(PointInTimeInterface::class);
+        $time = $this->createMock(PointInTime::class);
         $mock
             ->expects($this->once())
             ->method('__invoke')
             ->with($time)
             ->willReturn(Set::of(
                 Episode::class,
-                $foo = new Episode('foo', 1, 2, $this->createMock(PointInTimeInterface::class)),
-                new Episode('bar', 3, 4, $this->createMock(PointInTimeInterface::class)),
-                $baz = new Episode('baz', 5, 6, $this->createMock(PointInTimeInterface::class)),
-                new Episode('watev', 7, 8, $this->createMock(PointInTimeInterface::class))
+                $foo = new Episode('foo', 1, 2, $this->createMock(PointInTime::class)),
+                new Episode('bar', 3, 4, $this->createMock(PointInTime::class)),
+                $baz = new Episode('baz', 5, 6, $this->createMock(PointInTime::class)),
+                new Episode('watev', 7, 8, $this->createMock(PointInTime::class))
             ));
         $storage
             ->expects($this->once())
@@ -54,8 +52,8 @@ class StorageAwareTest extends TestCase
 
         $episodes = $calendar($time);
 
-        $this->assertInstanceOf(SetInterface::class, $episodes);
+        $this->assertInstanceOf(Set::class, $episodes);
         $this->assertSame(Episode::class, (string) $episodes->type());
-        $this->assertSame([$foo, $baz], $episodes->toPrimitive());
+        $this->assertSame([$foo, $baz], unwrap($episodes));
     }
 }

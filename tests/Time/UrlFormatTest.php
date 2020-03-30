@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Series\Time;
 
 use Series\Time\UrlFormat;
-use Innmind\TimeContinuum\FormatInterface;
+use Innmind\TimeContinuum\Format;
 use PHPUnit\Framework\TestCase;
 
 class UrlFormatTest extends TestCase
@@ -13,7 +13,7 @@ class UrlFormatTest extends TestCase
     {
         $format = new UrlFormat;
 
-        $this->assertInstanceOf(FormatInterface::class, $format);
-        $this->assertSame('n-Y', (string) $format);
+        $this->assertInstanceOf(Format::class, $format);
+        $this->assertSame('n-Y', $format->toString());
     }
 }

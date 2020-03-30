@@ -13,10 +13,10 @@ use Innmind\Crawler\{
     HttpResource,
     HttpResource\Attribute,
 };
-use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\MediaType;
+use Innmind\Url\Url;
+use Innmind\MediaType\MediaType;
 use Innmind\Stream\Readable;
-use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
+use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\{
     Map,
     Set
@@ -42,15 +42,15 @@ class PogdesignTest extends TestCase
             ->expects($this->once())
             ->method('__invoke')
             ->with($this->callback(static function($request): bool {
-                return (string) $request->url() === 'https://www.pogdesign.co.uk/cat/4-2018' &&
-                    (string) $request->method() === 'GET' &&
-                    (string) $request->protocolVersion() === '2.0';
+                return $request->url()->toString() === 'https://www.pogdesign.co.uk/cat/4-2018' &&
+                    $request->method()->toString() === 'GET' &&
+                    $request->protocolVersion()->toString() === '2.0';
             }))
             ->willReturn(
                 new HttpResource(
-                    $this->createMock(UrlInterface::class),
-                    $this->createMock(MediaType::class),
-                    (new Map('string', Attribute::class))->put(
+                    Url::of('example.com'),
+                    MediaType::null(),
+                    (Map::of('string', Attribute::class))->put(
                         'episodes',
                         new Attribute\Attribute(
                             'epsiodes',

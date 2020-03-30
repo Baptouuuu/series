@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Series;
 
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 use Innmind\Immutable\Str;
 
 final class Episode
@@ -11,13 +11,13 @@ final class Episode
     private string $show;
     private int $season;
     private int $episode;
-    private PointInTimeInterface $airedAt;
+    private PointInTime $airedAt;
 
     public function __construct(
         string $show,
         int $season,
         int $episode,
-        PointInTimeInterface $airedAt
+        PointInTime $airedAt
     ) {
         $this->show = $show;
         $this->season = $season;
@@ -31,8 +31,8 @@ final class Episode
     }
 
     public function airedBetween(
-        PointInTimeInterface $since,
-        PointInTimeInterface $to
+        PointInTime $since,
+        PointInTime $to
     ) {
         return $this->airedAt->aheadOf($since) &&
             ($to->aheadOf($this->airedAt) || $to->equals($this->airedAt));
@@ -40,10 +40,10 @@ final class Episode
 
     public function __toString(): string
     {
-        return (string) Str::of('%s s%\'.02de%\'.02d')->sprintf(
+        return Str::of('%s s%\'.02de%\'.02d')->sprintf(
             $this->show,
-            $this->season,
-            $this->episode
-        );
+            (string) $this->season,
+            (string) $this->episode
+        )->toString();
     }
 }

@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 namespace Series;
 
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 
 interface LastReport
 {
-    public function at(PointInTimeInterface $time): self;
+    public function at(PointInTime $time): self;
 
     /**
      * @throws RuntimeException When no report already done
      */
-    public function when(): PointInTimeInterface;
+    public function when(): PointInTime;
 }

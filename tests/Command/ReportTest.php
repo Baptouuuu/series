@@ -17,11 +17,11 @@ use Innmind\CLI\{
     Environment,
 };
 use Innmind\TimeContinuum\{
-    TimeContinuumInterface,
-    PointInTimeInterface,
-    PointInTime\Earth\PointInTime,
-    FormatInterface,
-    Format\ISO8601,
+    Clock,
+    PointInTime as PointInTimeInterface,
+    Format,
+    Earth\PointInTime\PointInTime,
+    Earth\Format\ISO8601,
 };
 use Innmind\Stream\Writable;
 use Innmind\Immutable\{
@@ -38,7 +38,7 @@ class ReportTest extends TestCase
             Command::class,
             new Report(
                 $this->createMock(Calendar::class),
-                $this->createMock(TimeContinuumInterface::class),
+                $this->createMock(Clock::class),
                 $this->createMock(LastReport::class)
             )
         );
@@ -48,13 +48,13 @@ class ReportTest extends TestCase
     {
         $command = new Report(
             $calendar = $this->createMock(Calendar::class),
-            new class implements TimeContinuumInterface {
+            new class implements Clock {
                 public function now(): PointInTimeInterface
                 {
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
+                public function at(string $time, Format $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
@@ -98,7 +98,7 @@ class ReportTest extends TestCase
             ->expects($this->at(0))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "bar s01e03\n";
+                return $line->toString() === "bar s01e03\n";
             }));
 
         $this->assertNull($command(
@@ -112,13 +112,13 @@ class ReportTest extends TestCase
     {
         $command = new Report(
             $calendar = $this->createMock(Calendar::class),
-            new class implements TimeContinuumInterface {
+            new class implements Clock {
                 public function now(): PointInTimeInterface
                 {
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
+                public function at(string $time, Format $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
@@ -171,7 +171,8 @@ class ReportTest extends TestCase
             ));
         $calendar
             ->expects($this->exactly(3))
-            ->method('__invoke');
+            ->method('__invoke')
+            ->willReturn(Set::of(Episode::class));
         $env = $this->createMock(Environment::class);
         $env
             ->expects($this->any())
@@ -181,19 +182,19 @@ class ReportTest extends TestCase
             ->expects($this->at(0))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "foo s01e01\n";
+                return $line->toString() === "foo s01e01\n";
             }));
         $output
             ->expects($this->at(1))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "foo s01e02\n";
+                return $line->toString() === "foo s01e02\n";
             }));
         $output
             ->expects($this->at(2))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "bar s01e03\n";
+                return $line->toString() === "bar s01e03\n";
             }));
 
         $this->assertNull($command(
@@ -207,13 +208,13 @@ class ReportTest extends TestCase
     {
         $command = new Report(
             $calendar = $this->createMock(Calendar::class),
-            new class implements TimeContinuumInterface {
+            new class implements Clock {
                 public function now(): PointInTimeInterface
                 {
                     return new PointInTime('2018-03-04');
                 }
 
-                public function at(string $time, FormatInterface $format = null): PointInTimeInterface
+                public function at(string $time, Format $format = null): PointInTimeInterface
                 {
                     return new PointInTime($time);
                 }
@@ -262,7 +263,8 @@ class ReportTest extends TestCase
             ));
         $calendar
             ->expects($this->exactly(2))
-            ->method('__invoke');
+            ->method('__invoke')
+            ->willReturn(Set::of(Episode::class));
         $env = $this->createMock(Environment::class);
         $env
             ->expects($this->any())
@@ -272,19 +274,19 @@ class ReportTest extends TestCase
             ->expects($this->at(0))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "foo s01e02\n";
+                return $line->toString() === "foo s01e02\n";
             }));
         $output
             ->expects($this->at(1))
             ->method('write')
             ->with($this->callback(static function($line): bool {
-                return (string) $line === "bar s01e03\n";
+                return $line->toString() === "bar s01e03\n";
             }));
 
         $this->assertNull($command(
             $env,
             new Arguments(
-                (new Map('string', 'mixed'))->put('since', '2018-02-27')
+                Map::of('string', 'string')('since', '2018-02-27')
             ),
             new Options
         ));
@@ -298,10 +300,10 @@ report [since]
 List all the epsiodes you need to watch
 USAGE;
 
-        $this->assertSame($expected, (string) new Report(
+        $this->assertSame($expected, (new Report(
             $this->createMock(Calendar::class),
-            $this->createMock(TimeContinuumInterface::class),
+            $this->createMock(Clock::class),
             $this->createMock(LastReport::class)
-        ));
+        ))->toString());
     }
 }

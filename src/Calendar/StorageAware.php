@@ -8,8 +8,8 @@ use Series\{
     Episode,
     Storage,
 };
-use Innmind\TimeContinuum\PointInTimeInterface;
-use Innmind\Immutable\SetInterface;
+use Innmind\TimeContinuum\PointInTime;
+use Innmind\Immutable\Set;
 
 final class StorageAware implements Calendar
 {
@@ -25,7 +25,7 @@ final class StorageAware implements Calendar
     /**
      * {@inheritdoc}
      */
-    public function __invoke(PointInTimeInterface $month): SetInterface
+    public function __invoke(PointInTime $month): Set
     {
         $shows = $this->watching->all();
 

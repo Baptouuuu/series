@@ -7,8 +7,12 @@ use Series\{
     Storage\Filesystem,
     Storage,
 };
-use Innmind\Filesystem\Adapter\MemoryAdapter;
-use Innmind\Immutable\SetInterface;
+use Innmind\Filesystem\{
+    Adapter\InMemory,
+    Name,
+};
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 
 class FilesystemTest extends TestCase
@@ -19,7 +23,7 @@ class FilesystemTest extends TestCase
     public function setUp(): void
     {
         $this->storage = new Filesystem(
-            $this->adapter = new MemoryAdapter,
+            $this->adapter = new InMemory,
             'foo.txt'
         );
     }
@@ -34,13 +38,13 @@ class FilesystemTest extends TestCase
 
     public function testAdd()
     {
-        $this->assertFalse($this->adapter->has('foo.txt'));
+        $this->assertFalse($this->adapter->contains(new Name('foo.txt')));
         $this->assertSame($this->storage, $this->storage->add('watev'));
-        $this->assertTrue($this->adapter->has('foo.txt'));
+        $this->assertTrue($this->adapter->contains(new Name('foo.txt')));
         $this->storage->add('another');
         $this->assertSame(
             "watev\nanother",
-            (string) $this->adapter->get('foo.txt')->content()
+            $this->adapter->get(new Name('foo.txt'))->content()->toString()
         );
     }
 
@@ -55,7 +59,7 @@ class FilesystemTest extends TestCase
         $this->assertSame($this->storage, $this->storage->remove('bar'));
         $this->assertSame(
             "foo\nbaz",
-            (string) $this->adapter->get('foo.txt')->content()
+            $this->adapter->get(new Name('foo.txt'))->content()->toString()
         );
     }
 
@@ -69,8 +73,8 @@ class FilesystemTest extends TestCase
 
         $all = $this->storage->all();
 
-        $this->assertInstanceOf(SetInterface::class, $all);
+        $this->assertInstanceOf(Set::class, $all);
         $this->assertSame('string', (string) $all->type());
-        $this->assertSame(['foo', 'bar', 'baz'], $all->toPrimitive());
+        $this->assertSame(['foo', 'bar', 'baz'], unwrap($all));
     }
 }

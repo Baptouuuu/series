@@ -6,7 +6,7 @@ namespace Tests\Series\Visitor;
 use Series\Visitor\Episodes;
 use Innmind\Xml\Element;
 use Innmind\Stream\Readable\Stream;
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 use function Innmind\Html\bootstrap as html;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ class EpisodesTest extends TestCase
 
         $episodes = (new Episodes)($dom);
 
-        $this->assertInstanceOf(SetInterface::class, $episodes);
+        $this->assertInstanceOf(Set::class, $episodes);
         $this->assertSame(Element::class, (string) $episodes->type());
         $this->assertCount(552, $episodes);
         $episodes->foreach(function(Element $episode): void {

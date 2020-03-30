@@ -19,9 +19,9 @@ use Innmind\Http\Message\{
     Request,
     Response,
 };
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\{
-    MapInterface,
+    Map,
     Set,
     Str,
 };
@@ -29,12 +29,10 @@ use Innmind\Immutable\{
 final class Episodes implements Parser
 {
     private Reader $read;
-    private TimeContinuumInterface $clock;
+    private Clock $clock;
 
-    public function __construct(
-        Reader $read,
-        TimeContinuumInterface $clock
-    ) {
+    public function __construct(Reader $read, Clock $clock)
+    {
         $this->read = $read;
         $this->clock = $clock;
     }
@@ -45,8 +43,8 @@ final class Episodes implements Parser
     public function __invoke(
         Request $request,
         Response $response,
-        MapInterface $attributes
-    ): MapInterface {
+        Map $attributes
+    ): Map {
         $document = ($this->read)($response->body());
         $episodes = (new Visit)($document);
 
@@ -55,7 +53,7 @@ final class Episodes implements Parser
             new Attribute(
                 self::key(),
                 $episodes->reduce(
-                    new Set(Episode::class),
+                    Set::of(Episode::class),
                     function(Set $series, Element $episode): Set {
                         $show = trim($episode
                             ->children()
@@ -81,16 +79,16 @@ final class Episodes implements Parser
                         $airedAt = Str::of($episode->attributes()->get('id')->value());
                         $airedAtParts = $airedAt->capture('~^d_(?<day>\d{1,2})_(?<month>\d{1,2})_(?<year>\d{4})$~');
                         $airedAt = Str::of('%s-%\'.02d-%\'.02d 00:00:00')->sprintf(
-                            (string) $airedAtParts->get('year'),
-                            (string) $airedAtParts->get('month'),
-                            (string) $airedAtParts->get('day')
+                            $airedAtParts->get('year')->toString(),
+                            $airedAtParts->get('month')->toString(),
+                            $airedAtParts->get('day')->toString(),
                         );
 
                         return $series->add(new Episode(
                             $show,
-                            (int) (string) $parts->get('season'),
-                            (int) (string) $parts->get('episode'),
-                            $this->clock->at((string) $airedAt)
+                            (int) $parts->get('season')->toString(),
+                            (int) $parts->get('episode')->toString(),
+                            $this->clock->at($airedAt->toString())
                         ));
                     }
                 )
