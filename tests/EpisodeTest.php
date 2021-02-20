@@ -20,32 +20,17 @@ class EpisodeTest extends TestCase
         $since = $this->createMock(PointInTime::class);
         $to = $this->createMock(PointInTime::class);
         $airedAt
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('aheadOf')
             ->with($since)
-            ->willReturn(true);
-        $airedAt
-            ->expects($this->at(1))
-            ->method('aheadOf')
-            ->with($since)
-            ->willReturn(true);
-        $airedAt
-            ->expects($this->at(2))
-            ->method('aheadOf')
-            ->with($since)
-            ->willReturn(false);
+            ->will($this->onConsecutiveCalls(true, true, false));
         $to
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('aheadOf')
             ->with($airedAt)
-            ->willReturn(true);
+            ->will($this->onConsecutiveCalls(true, false));
         $to
-            ->expects($this->at(1))
-            ->method('aheadOf')
-            ->with($airedAt)
-            ->willReturn(false);
-        $to
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('equals')
             ->with($airedAt)
             ->willReturn(true);
