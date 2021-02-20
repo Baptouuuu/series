@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest]
-        php-version: ['7.4']
+        php-version: ['7.4', '8.0']
     name: 'PHPUnit'
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Install Dependencies
-        run: composer install --no-progress
+        run: composer update --no-progress
       - name: PHPUnit
         run: vendor/bin/phpunit --coverage-clover=coverage.clover
       - uses: codecov/codecov-action@v1
