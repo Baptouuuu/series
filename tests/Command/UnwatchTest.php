@@ -107,7 +107,7 @@ class UnwatchTest extends TestCase
                 }
                 public function resource()
                 {
-                    return $this->resource ?? $this->resource = tmpfile();
+                    return $this->resource ?? $this->resource = \tmpfile();
                 }
                 public function read(int $length = null): Str
                 {
@@ -127,29 +127,25 @@ class UnwatchTest extends TestCase
             ->method('output')
             ->willReturn($output = $this->createMock(Writable::class));
         $output
-            ->expects($this->at(0))
+            ->expects($this->exactly(5))
             ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "Shows to stop watching:\n";
-            }));
-        $output
-            ->expects($this->at(1))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "[0] foo\n";
-            }));
-        $output
-            ->expects($this->at(2))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "[1] bar\n";
-            }));
-        $output
-            ->expects($this->at(3))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "[2] baz\n";
-            }));
+            ->withConsecutive(
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "Shows to stop watching:\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "[0] foo\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "[1] bar\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "[2] baz\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === '> ';
+                })],
+            );
 
         $this->assertNull($command(
             $env,

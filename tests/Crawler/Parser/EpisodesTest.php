@@ -41,7 +41,7 @@ class EpisodesTest extends TestCase
         $response
             ->expects($this->once())
             ->method('body')
-            ->willReturn(new Stream(fopen('fixtures/pogdesign.html', 'r')));
+            ->willReturn(new Stream(\fopen('fixtures/pogdesign.html', 'r')));
 
         $attributes = $parse(
             $this->createMock(Request::class),

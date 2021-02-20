@@ -1,6 +1,6 @@
 # Series
 
-[![Build Status](https://github.com/Baptouuuu/Series/workflows/CI/badge.svg)](https://github.com/Baptouuuu/Series/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/Baptouuuu/Series/workflows/CI/badge.svg?branch=master)](https://github.com/Baptouuuu/Series/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/Baptouuuu/Series/branch/develop/graph/badge.svg)](https://codecov.io/gh/Baptouuuu/Series)
 
 This tool allows you to report the episodes of your tv shows you need to watch.

@@ -37,9 +37,6 @@ final class Episodes implements Parser
         $this->clock = $clock;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __invoke(
         Request $request,
         Response $response,
@@ -55,7 +52,7 @@ final class Episodes implements Parser
                 $episodes->reduce(
                     Set::of(Episode::class),
                     function(Set $series, Element $episode): Set {
-                        $show = trim($episode
+                        $show = \trim($episode
                             ->children()
                             ->get(1)
                             ->children()

@@ -95,7 +95,7 @@ class ReportTest extends TestCase
             ->method('output')
             ->willReturn($output = $this->createMock(Writable::class));
         $output
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('write')
             ->with($this->callback(static function($line): bool {
                 return $line->toString() === "bar s01e03\n";
@@ -136,38 +136,34 @@ class ReportTest extends TestCase
                 return $now->format(new ISO8601) === '2018-03-04T00:00:00+00:00';
             }));
         $calendar
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('__invoke')
-            ->willReturn(Set::of(Episode::class));
-        $calendar
-            ->expects($this->at(1))
-            ->method('__invoke')
-            ->willReturn(Set::of(
-                Episode::class,
-                new Episode(
-                    'foo',
-                    1,
-                    1,
-                    new PointInTime('2018-02-01')
-                )
-            ));
-        $calendar
-            ->expects($this->at(2))
-            ->method('__invoke')
-            ->willReturn(Set::of(
-                Episode::class,
-                new Episode(
-                    'foo',
-                    1,
-                    2,
-                    new PointInTime('2018-03-02')
+            ->will($this->onConsecutiveCalls(
+                Set::of(Episode::class),
+                Set::of(
+                    Episode::class,
+                    new Episode(
+                        'foo',
+                        1,
+                        1,
+                        new PointInTime('2018-02-01')
+                    )
                 ),
-                new Episode(
-                    'bar',
-                    1,
-                    3,
-                    new PointInTime('2018-03-04')
-                )
+                Set::of(
+                    Episode::class,
+                    new Episode(
+                        'foo',
+                        1,
+                        2,
+                        new PointInTime('2018-03-02')
+                    ),
+                    new Episode(
+                        'bar',
+                        1,
+                        3,
+                        new PointInTime('2018-03-04')
+                    )
+                ),
             ));
         $calendar
             ->expects($this->exactly(3))
@@ -179,23 +175,19 @@ class ReportTest extends TestCase
             ->method('output')
             ->willReturn($output = $this->createMock(Writable::class));
         $output
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "foo s01e01\n";
-            }));
-        $output
-            ->expects($this->at(1))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "foo s01e02\n";
-            }));
-        $output
-            ->expects($this->at(2))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "bar s01e03\n";
-            }));
+            ->withConsecutive(
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "foo s01e01\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "foo s01e02\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "bar s01e03\n";
+                })],
+            );
 
         $this->assertNull($command(
             $env,
@@ -232,56 +224,50 @@ class ReportTest extends TestCase
                 return $now->format(new ISO8601) === '2018-03-04T00:00:00+00:00';
             }));
         $calendar
-            ->expects($this->at(0))
-            ->method('__invoke')
-            ->willReturn(Set::of(
-                Episode::class,
-                new Episode(
-                    'foo',
-                    1,
-                    1,
-                    new PointInTime('2018-02-01')
-                )
-            ));
-        $calendar
-            ->expects($this->at(1))
-            ->method('__invoke')
-            ->willReturn(Set::of(
-                Episode::class,
-                new Episode(
-                    'foo',
-                    1,
-                    2,
-                    new PointInTime('2018-03-02')
-                ),
-                new Episode(
-                    'bar',
-                    1,
-                    3,
-                    new PointInTime('2018-03-04')
-                )
-            ));
-        $calendar
             ->expects($this->exactly(2))
             ->method('__invoke')
-            ->willReturn(Set::of(Episode::class));
+            ->will($this->onConsecutiveCalls(
+                Set::of(
+                    Episode::class,
+                    new Episode(
+                        'foo',
+                        1,
+                        1,
+                        new PointInTime('2018-02-01')
+                    )
+                ),
+                Set::of(
+                    Episode::class,
+                    new Episode(
+                        'foo',
+                        1,
+                        2,
+                        new PointInTime('2018-03-02')
+                    ),
+                    new Episode(
+                        'bar',
+                        1,
+                        3,
+                        new PointInTime('2018-03-04')
+                    )
+                )
+            ));
         $env = $this->createMock(Environment::class);
         $env
             ->expects($this->any())
             ->method('output')
             ->willReturn($output = $this->createMock(Writable::class));
         $output
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "foo s01e02\n";
-            }));
-        $output
-            ->expects($this->at(1))
-            ->method('write')
-            ->with($this->callback(static function($line): bool {
-                return $line->toString() === "bar s01e03\n";
-            }));
+            ->withConsecutive(
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "foo s01e02\n";
+                })],
+                [$this->callback(static function($line): bool {
+                    return $line->toString() === "bar s01e03\n";
+                })],
+            );
 
         $this->assertNull($command(
             $env,
