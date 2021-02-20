@@ -39,7 +39,9 @@ final class Episodes
                 return $elements->add(
                     $element->addAttribute($this->currentDay)
                 );
-            } else if ($class->matches('/^(to)?day$/')) {
+            }
+
+            if ($class->matches('/^(to)?day$/')) {
                 $this->currentDay = $element->attributes()->get('id');
             }
         }

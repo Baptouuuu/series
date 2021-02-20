@@ -22,9 +22,6 @@ final class StorageAware implements Calendar
         $this->watching = $watching;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __invoke(PointInTime $month): Set
     {
         $shows = $this->watching->all();

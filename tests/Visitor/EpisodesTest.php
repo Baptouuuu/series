@@ -14,7 +14,7 @@ class EpisodesTest extends TestCase
 {
     public function testInvoke()
     {
-        $dom = html()(new Stream(fopen('fixtures/pogdesign.html', 'r')));
+        $dom = html()(new Stream(\fopen('fixtures/pogdesign.html', 'r')));
 
         $episodes = (new Episodes)($dom);
 

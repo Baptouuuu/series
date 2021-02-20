@@ -25,6 +25,15 @@ final class Episode
         $this->airedAt = $airedAt;
     }
 
+    public function __toString(): string
+    {
+        return Str::of('%s s%\'.02de%\'.02d')->sprintf(
+            $this->show,
+            (string) $this->season,
+            (string) $this->episode
+        )->toString();
+    }
+
     public function show(): string
     {
         return $this->show;
@@ -36,14 +45,5 @@ final class Episode
     ) {
         return $this->airedAt->aheadOf($since) &&
             ($to->aheadOf($this->airedAt) || $to->equals($this->airedAt));
-    }
-
-    public function __toString(): string
-    {
-        return Str::of('%s s%\'.02de%\'.02d')->sprintf(
-            $this->show,
-            (string) $this->season,
-            (string) $this->episode
-        )->toString();
     }
 }

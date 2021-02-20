@@ -107,7 +107,7 @@ class UnwatchTest extends TestCase
                 }
                 public function resource()
                 {
-                    return $this->resource ?? $this->resource = tmpfile();
+                    return $this->resource ?? $this->resource = \tmpfile();
                 }
                 public function read(int $length = null): Str
                 {
@@ -143,7 +143,7 @@ class UnwatchTest extends TestCase
                     return $line->toString() === "[2] baz\n";
                 })],
                 [$this->callback(static function($line): bool {
-                    return $line->toString() === "> ";
+                    return $line->toString() === '> ';
                 })],
             );
 

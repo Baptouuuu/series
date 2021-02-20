@@ -26,9 +26,6 @@ final class Pogdesign implements Calendar
         $this->crawl = $crawl;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __invoke(PointInTime $month): Set
     {
         return ($this->crawl)(
@@ -38,8 +35,8 @@ final class Pogdesign implements Calendar
                     new ProtocolVersion(2, 0)
                 )
             )
-            ->attributes()
-            ->get('episodes')
-            ->content();
+                ->attributes()
+                ->get('episodes')
+                ->content();
     }
 }
